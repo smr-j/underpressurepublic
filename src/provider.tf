@@ -15,10 +15,6 @@ provider "aws" {
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
 
-  shared_config_files      = ["~/.aws/config"]
-  shared_credentials_files = ["~/.aws/credentials"]
-  profile                  = "terraform-user"
-
   endpoints {
     s3             = "http://s3.localhost.localstack.cloud:4566"
   }
