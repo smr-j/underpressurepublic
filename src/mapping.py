@@ -81,5 +81,29 @@ for loc in loci:
         icon=folium.Icon(color=loc['color'])
     ).add_to(m)
 
+legend_html = '''
+    <div style="position: fixed; 
+                background-color: white; 
+                border:2px solid grey; 
+                border-radius:5px; 
+                bottom: 30px; 
+                left: 30px; 
+                width: 200px; 
+                z-index: 9999; 
+                ">
+        <h4 style="margin: 5px;">Legend</h4>
+        <i style="background: red; width: 20px; height: 20px; display: inline-block;"></i> High Pressure Variation<br>
+        <i style="background: orange; width: 20px; height: 20px; display: inline-block;"></i> Moderate Pressure Variation<br>
+        <i style="background: green; width: 20px; height: 20px; display: inline-block;"></i> Low/No Pressure Variation<br>
+        <i style="background: gray; width: 20px; height: 20px; display: inline-block;"></i> Missing Data<br>
+    </div>
+'''
+
+# Add the legend to the map
+m.get_root().html.add_child(folium.Element(legend_html));
+
+
+
+
 # Save the map to an HTML file
 m.save('templates/map.html')
