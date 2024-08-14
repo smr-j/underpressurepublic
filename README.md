@@ -7,13 +7,14 @@ While sparse research exists on the topic, large variations in barometric pressu
 When barometric pressure drops, as it usually does prior to bad weather, it can:
 * lead to tissue expansion which puts pressure on joints and worsens arthritis
 * lead to pressure differentials between the outside and the inside of the body, which can worsen headaches, especially migraines and headaches caused by sinusitis
+
 However, most studies find insignificant results when data is pooled; barometric pressure has more influence at the individual level.
 
 ## Project Progress
 
 There are two different repositories for this project, marking two different approaches and consolidating all the littler tasks that I had set for myself. 
 
-The other repository is the ancestor to this one, and it uses localstack, boto3, docker, and python to create an S3 bucket that would collect information for each location pulled from the weather.gov APIs as well as store the static website that displays the output map. However, at this stage in time, this project simply creates the S3 bucket and then carries out the remaining tasks in the current workflow, namely, creating a static website that displays a map with points that are color-coordinated based on the amount of pressure variation and also display some other information when clicked on. 
+The other repository is the ancestor to this one, and it uses boto3 to create an S3 bucket that would collect information for each location pulled from the weather.gov APIs as well as store the static website that displays the output map. However, at this stage in time, this project simply creates the S3 bucket and then carries out the remaining tasks in the current workflow, namely, creating a static website that displays a map with points that are color-coordinated based on the amount of pressure variation and also display some other information when clicked on. 
 
 The other repository is this one, which replaces boto3 with Terraform and thus uses Terraform to create an S3 bucket that, in an ideal situation, would an object for each location that is a point on the map. The object stores information for each location pulled from the weather.gov APIs. Given that everything is Dockerized, I did not need to use S3 to store the website. This is in some ways simpler than its predecessor, mostly because I was focused on ensuring that Terraform was integrated with everything else.
 
