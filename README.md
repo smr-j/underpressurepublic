@@ -43,6 +43,10 @@ I also struggled quite a bit with setting up the architecture for this project, 
 
 ## Next Steps
 
+I am trying to keep a running list of tasks through the Issues tab, but for me, I have two tasks that I'm prioritizing, depending on what I decide is the better workflow:
+* Adding a database to hold the data for the map points
+* Complete the Terraform integration and checking that the S3 bucket can hold objects
+
 ## Acknowledgments
 
 A huge thanks to Jim Sheldon for all of his help putting together this project.
