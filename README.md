@@ -34,11 +34,11 @@ I also struggled quite a bit with setting up the architecture for this project, 
 
 ### Version 2
 
-<img src="figs/workflow_v2.png" alt="The second iteration of the architecture diagram" style="width: 600px;">
+<img src="figs/workflow_v3.png" alt="The second iteration of the architecture diagram" style="width: 600px;">
 
 ### Version 3
 
-<img src="figs/workflow_v3.png" alt="Progress towards a more realistic architecture diagram." style="width: 600px;">
+<img src="figs/workflow_v2.png" alt="Progress towards a more realistic architecture diagram." style="width: 600px;">
 
 
 ## Next Steps
