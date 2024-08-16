@@ -29,6 +29,11 @@ S3_BUCKET = os.environ.get('S3_BUCKET', 'measurements-bucket')
 
 
 # GET for all locations, GET for specific location,
+'''
+@app.route('/measurements', methods=['GET'])
+def get_measurements():
+# Add code for this method
+'''
 
 @app.route('/measurements', methods=['POST'])
 def add_measurement():
