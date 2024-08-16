@@ -20,20 +20,19 @@ There are two different repositories for this project, marking two different app
 
 [The other repository](https://github.com/smr-j/underpressure) is the ancestor to this one, and it uses boto3 to create an S3 bucket that would collect information for each location pulled from the weather.gov APIs as well as store the static website that displays the output map. However, at this stage in time, this project simply creates the S3 bucket and then carries out the remaining tasks in the current workflow, namely, creating a static website that displays a map with points that are color-coordinated based on the amount of pressure variation and also display some other information when clicked on.
 
-### How to Run underpressure
+#### How to Run underpressure
 
 In order to see the output of that original underpressure repository, it should first be cloned locally. Once cloned, navigate into the src folder and use `docker-compose` to stand up the container based on the `compose.yml` file. The resulting `src-application-1` container, when checked with docker logs, will provide the link to the local static website that displays the map output.
 
-#### underpressurepublic
+### underpressurepublic
 
 Meanwhile, this repository replaces boto3 with Terraform and thus uses Terraform to create an S3 bucket that, in an ideal situation, would contain an object for each location that is a point on the map. The object stores information for each location pulled from the weather.gov APIs. Given that everything is Dockerized, I did not need to use S3 to store the website. This is in some ways simpler than its predecessor, mostly because I was focused on ensuring that Terraform was integrated with everything else. 
 
-# How to Run underpressurepublic
+#### How to Run underpressurepublic
 
 In order to see the output of this underpressurepublic repository, it should first be cloned locally. Once cloned, navigate into the src folder and use `docker-compose` to stand up the container based on the `compose.yml` file. Just like the original repository, the resulting `src-application-1` container is, when checked with docker logs, will provide the link to the local static website that displays the map output. However, initializing and applying Terraform in this folder allows for the creation of the S3 bucket that would store information about the various locations. 
 
-Of course, as I worked on this project, the architecture diagrams changed, and therefore, so did my intended usage of AWS services. Please see [Architecture Diagrams](architecture-diagrams) for more information.
-
+Of course, as I worked on this project, the architecture diagrams changed, and therefore, so did my intended usage of AWS services. Please see Architecture Diagrams for more information.
 
 ## Challenges
 
@@ -57,20 +56,27 @@ I still wish that creating infrastructure came to me much more naturally than it
 
 <img src="figs/workflow_v1.png" alt="The first iteration of the architecture diagram" style="width: 600px;">
 
+In this original architecture diagram, I assumed that I would be creating my map based on US Census Bureau APIs and NWS APIs, storing the resulting data in S3 buckets, and then using AWS Lambda functions for all the data processing, including the processing that combined the data from both these sources before creating the map, which would be stored in an S3 bucket and then displayed on a webpage. 
+
 ### Version 2
 
 <img src="figs/workflow_v2.png" alt="The second iteration of the architecture diagram" style="width: 600px;">
+
+In the second iteration of my architecture diagram, I found out about Eventbridge and realized I could use it to set up scheduling, in addition to having a Lambda function do the API calls for the US Census Bureau and NWS data. I also started thinking that it would make more sense to store the pulled weather data in a relational database rather than in an S3 bucket because this data is connected, and there may be other applications or uses for this data in the future (ex: storing the data in a database makes it easier to pool different datapoints if needed). The other parts of the diagram, however, remain the same. 
 
 ### Version 3
 
 <img src="figs/workflow_v3.png" alt="Progress towards a more realistic architecture diagram." style="width: 600px;">
 
+In this iteration of my architecture diagram, I start seriously thinking about what I would need in a production environment, should this project reach that stage. I remove the US Census Bureau as a data source entirely, as my use of folium and its integration with OpenStreetMap makes it a more user-friendly option for the map. Additionally, given the desire to host this map as a website, I started thinking of additional security measures and services I would need. API Gateway could be used for security and in conjunction with Identity & Access Management to only allow authenticated users to change the data behind the map. It also integrates with AWS Lambda and can be setup to reduce latency, since the map will no doubt grow more complex over time. CloudWatch could be used to monitor API Gateway and track requests and latency. CloudWatch would also be used to monitor the Lambda functions, as pulling real-time data several times a day from an external API like the NWS means that it's necessary to monitor and make sure that the data is being collected and processed in a timely manner, as issues with NWS' API could have huge consequences for me. Route 53 would allow me to register a domain for my site while also effectively distributing traffic. Of course, this is only the beginning; as I continue working on this project, I expect that this diagram will grow in complexity to reflect the expanding scope of my project.
 
 ## Next Steps
 
 I am trying to keep a running list of tasks through the Issues tab, but for me, I have two tasks that I'm prioritizing, depending on what I decide is the better workflow:
 * Adding a database to hold the data for the map points (This is currently the most likely next task - using a relational database seems much more practical than the alternative of using an S3 bucket, although there is a potential use case that would use an S3 bucket to hold maps of various regions. This would be very, very far off in the future.)
 * Completing the Terraform integration and checking that the S3 bucket can hold objects
+
+The ideal end goal would be to have a website or application that autonomously pulls the necessary data, processes it, and updates the map in intervals of every three hours.
 
 ## Acknowledgments
 
